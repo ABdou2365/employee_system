@@ -1,5 +1,8 @@
 
 import './App.css'
+import FormAddUser from './components/FormAddUser'
+
+
 import { NavigationMenuDemo } from './components/Heading'
 
 function App() {
@@ -8,6 +11,7 @@ function App() {
   return (
     <>
       <NavigationMenuDemo />
+      <FormAddUser/>
     </>
   )
 }
