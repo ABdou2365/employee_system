@@ -1,20 +1,29 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-
+"use client"
+import { useState } from "react"
+import EmployeeService from "../services/EmployeeService"
+import { useNavigate } from "react-router-dom"
 
 export default function FormAddUser() {
+
+  const navigate = useNavigate()
+
+  const [employee, setEmployee] = useState({
+
+    firstName: "",
+    lastName: "",
+    email: ""
+  })
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    EmployeeService.saveEmployee(employee).then((response) => {
+      navigate("/employeeList")
+      console.log(response.data)
+    }).catch((err) => {
+      console.log(err)
+    })
+  }
+
   return (
     <form>
       <div className="space-y-12 w-1/2">          
@@ -29,10 +38,11 @@ export default function FormAddUser() {
               <div className="mt-2">
                 <input
                   id="first-name"
-                  name="first-name"
                   type="text"
+                  value={employee.firstName}
+                  onChange={(e) => setEmployee({ ...employee, firstName: e.target.value })}
                   autoComplete="given-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className=" px-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -44,10 +54,11 @@ export default function FormAddUser() {
               <div className="mt-2">
                 <input
                   id="last-name"
-                  name="last-name"
                   type="text"
+                  value={employee.lastName}
+                  onChange={(e) => setEmployee({ ...employee, lastName: e.target.value })}
                   autoComplete="family-name"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className=" px-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -59,10 +70,11 @@ export default function FormAddUser() {
               <div className="mt-2">
                 <input
                   id="email"
-                  name="email"
                   type="email"
+                  value={employee.email}
+                  onChange={(e) => setEmployee({ ...employee, email: e.target.value })}
                   autoComplete="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="px-1 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div> 
@@ -71,17 +83,26 @@ export default function FormAddUser() {
       </div>
 
       <div className="mt-6 flex items-center justify-end gap-x-6 w-1/2">
-        <button type="button" className="text-sm font-semibold leading-6 text-gray-900">
+        <button onClick={() => navigate("/employeeList")} type="button" className="text-sm font-semibold leading-6 text-gray-900">
           Cancel
               </button>
               <button
           className="rounded-md bg-red-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={(e) => {
+            e.preventDefault()
+            setEmployee({
+              firstName: "",
+              lastName: "",
+              email: ""
+            })
+          }}
         >
           Clear
         </button>
         <button
           type="submit"
           className="rounded-md bg-green-700 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          onClick={handleSubmit}
         >
           Save
         </button>
