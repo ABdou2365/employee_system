@@ -16,6 +16,10 @@ class EmployeeService {
         return axios.get(BASE_URL_API_ENDPOINT + "/" + id)
     }
 
+    updateEmployee(id, employee) {
+        return axios.put(BASE_URL_API_ENDPOINT + "/" + id, employee)
+    }
+
     deleteEmployee(id) {
         return axios.delete(BASE_URL_API_ENDPOINT + "/" + id)
     }

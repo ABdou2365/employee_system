@@ -26,10 +26,13 @@ const EmployeeList = () => {
 
     const deleteEmployee = (e, id) => {
         e.preventDefault()
-        EmployeeService.deleteEmployee(id)
+        EmployeeService.deleteEmployee(id).then(() => {
         if (employess) {
             setEmployees(employess.filter((employee) => employee.id !== id))
         }
+        }).catch(error => {
+            console.log(error)
+        })
     }
 
         return (

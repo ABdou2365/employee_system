@@ -29,6 +29,12 @@ export default function FormEditUser() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    EmployeeService.updateEmployee(id, employee).then((response) => {
+      navigate("/employeeList")
+      console.log(response.data)
+    }).catch((err) => {
+      console.log(err)
+    })
   }
 
   return (
